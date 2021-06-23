@@ -14,17 +14,33 @@ import java.util.stream.StreamSupport;
  */
 @Service
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
+<<<<<<< Updated upstream
 
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
 
     public UnitOfMeasureServiceImpl(UnitOfMeasureRepository unitOfMeasureRepository, UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
         this.unitOfMeasureRepository = unitOfMeasureRepository;
+=======
+    private final UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
+    private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
+    
+    public UnitOfMeasureServiceImpl(UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository, UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
+        this.unitOfMeasureReactiveRepository = unitOfMeasureReactiveRepository;
+>>>>>>> Stashed changes
         this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
     }
-
+    
     @Override
+<<<<<<< Updated upstream
     public Set<UnitOfMeasureCommand> listAllUoms() {
+=======
+    public Flux<UnitOfMeasureCommand> listAllUoms() {
+        
+        return unitOfMeasureReactiveRepository
+                .findAll()
+                .map(unitOfMeasureToUnitOfMeasureCommand::convert);
+>>>>>>> Stashed changes
 
         return StreamSupport.stream(unitOfMeasureRepository.findAll()
                 .spliterator(), false)

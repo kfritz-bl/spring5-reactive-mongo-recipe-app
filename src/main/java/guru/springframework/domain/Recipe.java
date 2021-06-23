@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @Document
 public class Recipe {
-
+    
     @Id
     private String id;
     private String description;
@@ -33,14 +33,14 @@ public class Recipe {
 
     @DBRef
     private Set<Category> categories = new HashSet<>();
-
+    
     public void setNotes(Notes notes) {
         if (notes != null) {
             this.notes = notes;
         }
     }
-
-    public Recipe addIngredient(Ingredient ingredient){
+    
+    public Recipe addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
         return this;
     }

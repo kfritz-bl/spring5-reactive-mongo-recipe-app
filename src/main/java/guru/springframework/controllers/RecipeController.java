@@ -19,7 +19,6 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 public class RecipeController {
-
     private static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
     private final RecipeService recipeService;
 
@@ -27,32 +26,47 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+<<<<<<< Updated upstream
+=======
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        this.webDataBinder = webDataBinder;
+    }
+
+>>>>>>> Stashed changes
     @GetMapping("/recipe/{id}/show")
-    public String showById(@PathVariable String id, Model model){
-
+    public String showById(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findById(id));
-
         return "recipe/show";
     }
 
     @GetMapping("recipe/new")
-    public String newRecipe(Model model){
+    public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
-
         return "recipe/recipeform";
     }
 
     @GetMapping("recipe/{id}/update")
+<<<<<<< Updated upstream
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findCommandById(id));
+=======
+    public String updateRecipe(@PathVariable String id, Model model) {
+        model.addAttribute("recipe", recipeService.findCommandById(id).block());
+>>>>>>> Stashed changes
         return RECIPE_RECIPEFORM_URL;
     }
 
     @PostMapping("recipe")
+<<<<<<< Updated upstream
     public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult){
+=======
+    public String saveOrUpdate(@ModelAttribute("recipe") RecipeCommand command) {
+        webDataBinder.validate();
+        BindingResult bindingResult = webDataBinder.getBindingResult();
+>>>>>>> Stashed changes
 
-        if(bindingResult.hasErrors()){
-
+        if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
             });
@@ -60,14 +74,17 @@ public class RecipeController {
             return RECIPE_RECIPEFORM_URL;
         }
 
+<<<<<<< Updated upstream
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
 
+=======
+        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command).block();
+>>>>>>> Stashed changes
         return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
 
     @GetMapping("recipe/{id}/delete")
-    public String deleteById(@PathVariable String id){
-
+    public String deleteById(@PathVariable String id) {
         log.debug("Deleting id: " + id);
 
         recipeService.deleteById(id);
@@ -75,8 +92,13 @@ public class RecipeController {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
+<<<<<<< Updated upstream
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView handleNotFound(Exception exception){
+=======
+    @ExceptionHandler({NotFoundException.class, TemplateInputException.class})
+    public String handleNotFound(Exception exception, Model model) {
+>>>>>>> Stashed changes
 
         log.error("Handling not found exception");
         log.error(exception.getMessage());
@@ -88,5 +110,4 @@ public class RecipeController {
 
         return modelAndView;
     }
-
 }

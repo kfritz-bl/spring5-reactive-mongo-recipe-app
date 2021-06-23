@@ -9,6 +9,7 @@ import java.util.Set;
  * Created by jt on 6/13/17.
  */
 public interface RecipeService {
+<<<<<<< Updated upstream
 
     Set<Recipe> getRecipes();
 
@@ -19,4 +20,15 @@ public interface RecipeService {
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
     void deleteById(String idToDelete);
+=======
+    Flux<Recipe> getRecipes();
+    
+    Mono<Recipe> findById(String id);
+    
+    Mono<RecipeCommand> findCommandById(String id);
+    
+    Mono<RecipeCommand> saveRecipeCommand(RecipeCommand command);
+    
+    Mono<Void> deleteById(String idToDelete);
+>>>>>>> Stashed changes
 }

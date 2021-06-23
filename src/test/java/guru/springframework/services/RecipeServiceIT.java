@@ -21,33 +21,42 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RecipeServiceIT {
-
+    
     public static final String NEW_DESCRIPTION = "New Description";
-
+    
     @Autowired
     RecipeService recipeService;
-
+    
     @Autowired
     RecipeRepository recipeRepository;
-
+    
     @Autowired
     RecipeCommandToRecipe recipeCommandToRecipe;
-
+    
     @Autowired
     RecipeToRecipeCommand recipeToRecipeCommand;
+<<<<<<< Updated upstream
 
   //  @Transactional
+=======
+    
+>>>>>>> Stashed changes
     @Test
     public void testSaveOfDescription() throws Exception {
         //given
         Iterable<Recipe> recipes = recipeRepository.findAll();
         Recipe testRecipe = recipes.iterator().next();
         RecipeCommand testRecipeCommand = recipeToRecipeCommand.convert(testRecipe);
-
+        
         //when
         testRecipeCommand.setDescription(NEW_DESCRIPTION);
+<<<<<<< Updated upstream
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
 
+=======
+        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand).block();
+        
+>>>>>>> Stashed changes
         //then
         assertEquals(NEW_DESCRIPTION, savedRecipeCommand.getDescription());
         assertEquals(testRecipe.getId(), savedRecipeCommand.getId());

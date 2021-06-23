@@ -20,28 +20,48 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class UnitOfMeasureRepositoryIT {
-
+    
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
+<<<<<<< Updated upstream
 
     @Before
     public void setUp() throws Exception {
+=======
+    
+    @Autowired
+    CategoryRepository categoryRepository;
+    
+    @Autowired
+    RecipeRepository recipeRepository;
+    
+    @Before
+    public void setUp() throws Exception {
+        
+        recipeRepository.deleteAll();
+        unitOfMeasureRepository.deleteAll();
+        categoryRepository.deleteAll();
+        
+        RecipeBootstrap recipeBootstrap = new RecipeBootstrap(categoryRepository, recipeRepository, unitOfMeasureRepository);
+        
+        recipeBootstrap.onApplicationEvent(null);
+>>>>>>> Stashed changes
     }
-
+    
     @Test
     public void findByDescription() throws Exception {
-
+        
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
+        
         assertEquals("Teaspoon", uomOptional.get().getDescription());
     }
-
+    
     @Test
     public void findByDescriptionCup() throws Exception {
-
+        
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
-
+        
         assertEquals("Cup", uomOptional.get().getDescription());
     }
-
+    
 }

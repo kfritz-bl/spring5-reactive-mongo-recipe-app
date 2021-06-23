@@ -22,23 +22,28 @@ import java.io.InputStream;
  */
 @Controller
 public class ImageController {
-
     private final ImageService imageService;
     private final RecipeService recipeService;
-
+    
     public ImageController(ImageService imageService, RecipeService recipeService) {
         this.imageService = imageService;
         this.recipeService = recipeService;
     }
-
+    
     @GetMapping("recipe/{id}/image")
+<<<<<<< Updated upstream
     public String showUploadForm(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findCommandById(id));
 
+=======
+    public String showUploadForm(@PathVariable String id, Model model) {
+        model.addAttribute("recipe", recipeService.findCommandById(id).block());
+>>>>>>> Stashed changes
         return "recipe/imageuploadform";
     }
-
+    
     @PostMapping("recipe/{id}/image")
+<<<<<<< Updated upstream
     public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file){
 
         imageService.saveImageFile(id, file);
@@ -63,4 +68,10 @@ public class ImageController {
             IOUtils.copy(is, response.getOutputStream());
         }
     }
+=======
+    public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file) {
+        imageService.saveImageFile(id, file).block();
+        return "redirect:/recipe/" + id + "/show";
+    }
+>>>>>>> Stashed changes
 }

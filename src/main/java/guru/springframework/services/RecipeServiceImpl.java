@@ -20,6 +20,7 @@ import java.util.Set;
 @Slf4j
 @Service
 public class RecipeServiceImpl implements RecipeService {
+<<<<<<< Updated upstream
 
     private final RecipeRepository recipeRepository;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
@@ -27,10 +28,18 @@ public class RecipeServiceImpl implements RecipeService {
 
     public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
+=======
+    private final RecipeReactiveRepository recipeReactiveRepository;
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
+    
+    public RecipeServiceImpl(RecipeReactiveRepository recipeReactiveRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand) {
+        this.recipeReactiveRepository = recipeReactiveRepository;
+>>>>>>> Stashed changes
         this.recipeCommandToRecipe = recipeCommandToRecipe;
         this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
-
+    
     @Override
     public Set<Recipe> getRecipes() {
         log.debug("I'm in the service");
@@ -39,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
         return recipeSet;
     }
-
+    
     @Override
     public Recipe findById(String id) {
 
@@ -51,8 +60,9 @@ public class RecipeServiceImpl implements RecipeService {
 
         return recipeOptional.get();
     }
-
+    
     @Override
+<<<<<<< Updated upstream
     @Transactional
     public RecipeCommand findCommandById(String id) {
 
@@ -66,9 +76,24 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return recipeCommand;
+=======
+    public Mono<RecipeCommand> findCommandById(String id) {
+        
+        return recipeReactiveRepository.findById(id)
+                .map(recipe -> {
+                    RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
+                    
+                    recipeCommand.getIngredients().forEach(rc -> {
+                        rc.setRecipeId(recipeCommand.getId());
+                    });
+                    
+                    return recipeCommand;
+                });
+>>>>>>> Stashed changes
     }
-
+    
     @Override
+<<<<<<< Updated upstream
     @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
@@ -76,10 +101,23 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("Saved RecipeId:" + savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);
+=======
+    public Mono<RecipeCommand> saveRecipeCommand(RecipeCommand command) {
+        
+        return recipeReactiveRepository.save(recipeCommandToRecipe.convert(command))
+                .map(recipeToRecipeCommand::convert);
+>>>>>>> Stashed changes
     }
-
+    
     @Override
+<<<<<<< Updated upstream
     public void deleteById(String idToDelete) {
         recipeRepository.deleteById(idToDelete);
+=======
+    public Mono<Void> deleteById(String idToDelete) {
+        recipeReactiveRepository.deleteById(idToDelete).block();
+        
+        return Mono.empty();
+>>>>>>> Stashed changes
     }
 }

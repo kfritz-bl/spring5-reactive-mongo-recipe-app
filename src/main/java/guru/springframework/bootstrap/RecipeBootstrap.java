@@ -21,120 +21,127 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
-
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
-
+    
     public RecipeBootstrap(CategoryRepository categoryRepository,
                            RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
-
+    
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
         loadCategories();
         loadUom();
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading Bootstrap Data");
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
     }
-
-    private void loadCategories(){
+    
+    private void loadCategories() {
         Category cat1 = new Category();
         cat1.setDescription("American");
         categoryRepository.save(cat1);
-
+        
         Category cat2 = new Category();
         cat2.setDescription("Italian");
         categoryRepository.save(cat2);
-
+        
         Category cat3 = new Category();
         cat3.setDescription("Mexican");
         categoryRepository.save(cat3);
-
+        
         Category cat4 = new Category();
         cat4.setDescription("Fast Food");
         categoryRepository.save(cat4);
     }
-
-    private void loadUom(){
+    
+    private void loadUom() {
         UnitOfMeasure uom1 = new UnitOfMeasure();
         uom1.setDescription("Teaspoon");
         unitOfMeasureRepository.save(uom1);
-
+        
         UnitOfMeasure uom2 = new UnitOfMeasure();
         uom2.setDescription("Tablespoon");
         unitOfMeasureRepository.save(uom2);
-
+        
         UnitOfMeasure uom3 = new UnitOfMeasure();
         uom3.setDescription("Cup");
         unitOfMeasureRepository.save(uom3);
-
+        
         UnitOfMeasure uom4 = new UnitOfMeasure();
         uom4.setDescription("Pinch");
         unitOfMeasureRepository.save(uom4);
-
+        
         UnitOfMeasure uom5 = new UnitOfMeasure();
         uom5.setDescription("Ounce");
         unitOfMeasureRepository.save(uom5);
-
+        
         UnitOfMeasure uom6 = new UnitOfMeasure();
         uom6.setDescription("Each");
         unitOfMeasureRepository.save(uom6);
-
+        
         UnitOfMeasure uom7 = new UnitOfMeasure();
         uom7.setDescription("Pint");
         unitOfMeasureRepository.save(uom7);
-
+        
         UnitOfMeasure uom8 = new UnitOfMeasure();
         uom8.setDescription("Dash");
         unitOfMeasureRepository.save(uom8);
     }
-
+    
     private List<Recipe> getRecipes() {
-
+        
         List<Recipe> recipes = new ArrayList<>(2);
-
+        
         //get UOMs
         Optional<UnitOfMeasure> eachUomOptional = unitOfMeasureRepository.findByDescription("Each");
-
-        if(!eachUomOptional.isPresent()){
+        
+        if (!eachUomOptional.isPresent()) {
             throw new RuntimeException("Expected UOM Not Found");
         }
-
+        
         Optional<UnitOfMeasure> tableSpoonUomOptional = unitOfMeasureRepository.findByDescription("Tablespoon");
-
-        if(!tableSpoonUomOptional.isPresent()){
+        
+        if (!tableSpoonUomOptional.isPresent()) {
             throw new RuntimeException("Expected UOM Not Found");
         }
-
+        
         Optional<UnitOfMeasure> teaSpoonUomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
-        if(!teaSpoonUomOptional.isPresent()){
+        
+        if (!teaSpoonUomOptional.isPresent()) {
             throw new RuntimeException("Expected UOM Not Found");
         }
-
+        
         Optional<UnitOfMeasure> dashUomOptional = unitOfMeasureRepository.findByDescription("Dash");
-
-        if(!dashUomOptional.isPresent()){
+        
+        if (!dashUomOptional.isPresent()) {
             throw new RuntimeException("Expected UOM Not Found");
         }
-
+        
         Optional<UnitOfMeasure> pintUomOptional = unitOfMeasureRepository.findByDescription("Pint");
-
-        if(!pintUomOptional.isPresent()){
+        
+        if (!pintUomOptional.isPresent()) {
             throw new RuntimeException("Expected UOM Not Found");
         }
-
+        
         Optional<UnitOfMeasure> cupsUomOptional = unitOfMeasureRepository.findByDescription("Cup");
-
-        if(!cupsUomOptional.isPresent()){
+        
+        if (!cupsUomOptional.isPresent()) {
             throw new RuntimeException("Expected UOM Not Found");
         }
-
+        
         //get optionals
         UnitOfMeasure eachUom = eachUomOptional.get();
         UnitOfMeasure tableSpoonUom = tableSpoonUomOptional.get();
@@ -142,23 +149,23 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         UnitOfMeasure dashUom = dashUomOptional.get();
         UnitOfMeasure pintUom = dashUomOptional.get();
         UnitOfMeasure cupsUom = cupsUomOptional.get();
-
+        
         //get Categories
         Optional<Category> americanCategoryOptional = categoryRepository.findByDescription("American");
-
-        if(!americanCategoryOptional.isPresent()){
+        
+        if (!americanCategoryOptional.isPresent()) {
             throw new RuntimeException("Expected Category Not Found");
         }
-
+        
         Optional<Category> mexicanCategoryOptional = categoryRepository.findByDescription("Mexican");
-
-        if(!mexicanCategoryOptional.isPresent()){
+        
+        if (!mexicanCategoryOptional.isPresent()) {
             throw new RuntimeException("Expected Category Not Found");
         }
-
+        
         Category americanCategory = americanCategoryOptional.get();
         Category mexicanCategory = mexicanCategoryOptional.get();
-
+        
         //Yummy Guac
         Recipe guacRecipe = new Recipe();
         guacRecipe.setDescription("Perfect Guacamole");
@@ -177,7 +184,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "\n" +
                 "\n" +
                 "Read more: http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvpiV9Sd");
-
+        
         Notes guacNotes = new Notes();
         guacNotes.setRecipeNotes("For a very quick guacamole just take a 1/4 cup of salsa and mix it in with your mashed avocados.\n" +
                 "Feel free to experiment! One classic Mexican guacamole has pomegranate seeds and chunks of peaches in it (a Diana Kennedy favorite). Try guacamole with added pineapple, mango, or strawberries.\n" +
@@ -186,9 +193,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "\n" +
                 "\n" +
                 "Read more: http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvoun5ws");
-
+        
         guacRecipe.setNotes(guacNotes);
-
+        
         //very redundent - could add helper method, and make this simpler
         guacRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUom));
         guacRecipe.addIngredient(new Ingredient("Kosher salt", new BigDecimal(".5"), teapoonUom));
@@ -198,24 +205,24 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.addIngredient(new Ingredient("Cilantro", new BigDecimal(2), tableSpoonUom));
         guacRecipe.addIngredient(new Ingredient("freshly grated black pepper", new BigDecimal(2), dashUom));
         guacRecipe.addIngredient(new Ingredient("ripe tomato, seeds and pulp removed, chopped", new BigDecimal(".5"), eachUom));
-
+        
         guacRecipe.getCategories().add(americanCategory);
         guacRecipe.getCategories().add(mexicanCategory);
-
+        
         guacRecipe.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/");
         guacRecipe.setServings(4);
         guacRecipe.setSource("Simply Recipes");
-
+        
         //add to return list
         recipes.add(guacRecipe);
-
+        
         //Yummy Tacos
         Recipe tacosRecipe = new Recipe();
         tacosRecipe.setDescription("Spicy Grilled Chicken Taco");
         tacosRecipe.setCookTime(9);
         tacosRecipe.setPrepTime(20);
         tacosRecipe.setDifficulty(Difficulty.MODERATE);
-
+        
         tacosRecipe.setDirections("1 Prepare a gas or charcoal grill for medium-high, direct heat.\n" +
                 "2 Make the marinade and coat the chicken: In a large bowl, stir together the chili powder, oregano, cumin, sugar, salt, garlic and orange zest. Stir in the orange juice and olive oil to make a loose paste. Add the chicken to the bowl and toss to coat all over.\n" +
                 "Set aside to marinate while the grill heats and you prepare the rest of the toppings.\n" +
@@ -228,7 +235,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "\n" +
                 "\n" +
                 "Read more: http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/#ixzz4jvtrAnNm");
-
+        
         Notes tacoNotes = new Notes();
         tacoNotes.setRecipeNotes("We have a family motto and it is this: Everything goes better in a tortilla.\n" +
                 "Any and every kind of leftover can go inside a warm tortilla, usually with a healthy dose of pickled jalapenos. I can always sniff out a late-night snacker when the aroma of tortillas heating in a hot pan on the stove comes wafting through the house.\n" +
@@ -238,9 +245,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "\n" +
                 "\n" +
                 "Read more: http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/#ixzz4jvu7Q0MJ");
-
+        
         tacosRecipe.setNotes(tacoNotes);
-
+        
         tacosRecipe.addIngredient(new Ingredient("Ancho Chili Powder", new BigDecimal(2), tableSpoonUom));
         tacosRecipe.addIngredient(new Ingredient("Dried Oregano", new BigDecimal(1), teapoonUom));
         tacosRecipe.addIngredient(new Ingredient("Dried Cumin", new BigDecimal(1), teapoonUom));
@@ -260,14 +267,14 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.addIngredient(new Ingredient("Roughly chopped cilantro", new BigDecimal(4), eachUom));
         tacosRecipe.addIngredient(new Ingredient("cup sour cream thinned with 1/4 cup milk", new BigDecimal(4), cupsUom));
         tacosRecipe.addIngredient(new Ingredient("lime, cut into wedges", new BigDecimal(4), eachUom));
-
+        
         tacosRecipe.getCategories().add(americanCategory);
         tacosRecipe.getCategories().add(mexicanCategory);
-
+        
         tacosRecipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
         tacosRecipe.setServings(4);
         tacosRecipe.setSource("Simply Recipes");
-
+        
         recipes.add(tacosRecipe);
         return recipes;
     }

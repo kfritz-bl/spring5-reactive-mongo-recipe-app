@@ -26,27 +26,27 @@ public class RecipeCommandToRecipeTest {
     public static final String INGRED_ID_1 = "3";
     public static final String INGRED_ID_2 = "4";
     public static final String NOTES_ID = "4";
-
+    
     RecipeCommandToRecipe converter;
-
-
+    
+    
     @Before
     public void setUp() throws Exception {
         converter = new RecipeCommandToRecipe(new CategoryCommandToCategory(),
                 new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure()),
                 new NotesCommandToNotes());
     }
-
+    
     @Test
     public void testNullObject() throws Exception {
         assertNull(converter.convert(null));
     }
-
+    
     @Test
     public void testEmptyObject() throws Exception {
         assertNotNull(converter.convert(new RecipeCommand()));
     }
-
+    
     @Test
     public void convert() throws Exception {
         //given
@@ -60,33 +60,33 @@ public class RecipeCommandToRecipeTest {
         recipeCommand.setServings(SERVINGS);
         recipeCommand.setSource(SOURCE);
         recipeCommand.setUrl(URL);
-
+        
         NotesCommand notes = new NotesCommand();
         notes.setId(NOTES_ID);
-
+        
         recipeCommand.setNotes(notes);
-
+        
         CategoryCommand category = new CategoryCommand();
         category.setId(CAT_ID_1);
-
+        
         CategoryCommand category2 = new CategoryCommand();
         category2.setId(CAT_ID2);
-
+        
         recipeCommand.getCategories().add(category);
         recipeCommand.getCategories().add(category2);
-
+        
         IngredientCommand ingredient = new IngredientCommand();
         ingredient.setId(INGRED_ID_1);
-
+        
         IngredientCommand ingredient2 = new IngredientCommand();
         ingredient2.setId(INGRED_ID_2);
-
+        
         recipeCommand.getIngredients().add(ingredient);
         recipeCommand.getIngredients().add(ingredient2);
-
+        
         //when
-        Recipe recipe  = converter.convert(recipeCommand);
-
+        Recipe recipe = converter.convert(recipeCommand);
+        
         assertNotNull(recipe);
         assertEquals(RECIPE_ID, recipe.getId());
         assertEquals(COOK_TIME, recipe.getCookTime());
@@ -101,5 +101,5 @@ public class RecipeCommandToRecipeTest {
         assertEquals(2, recipe.getCategories().size());
         assertEquals(2, recipe.getIngredients().size());
     }
-
+    
 }

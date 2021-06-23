@@ -13,8 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @ControllerAdvice
 public class ControllerExceptionHandler {
-
+    
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+<<<<<<< Updated upstream
     @ExceptionHandler(NumberFormatException.class)
     public ModelAndView handleNumberFormat(Exception exception){
 
@@ -27,5 +28,13 @@ public class ControllerExceptionHandler {
         modelAndView.addObject("exception", exception);
 
         return modelAndView;
+=======
+    @ExceptionHandler(WebExchangeBindException.class)
+    public String handleNumberFormat(Exception exception, Model model) {
+        log.error("Handling Binding Exception");
+        log.error(exception.getMessage());
+        model.addAttribute("exception", exception);
+        return "400error";
+>>>>>>> Stashed changes
     }
 }
